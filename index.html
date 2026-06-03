@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teemu Lantta — Senior Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@300;400;500&family=Newsreader:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080c10;
+    --bg2: #0d1117;
+    --bg3: #111820;
+    --border: #1e2d3d;
+    --cyan: #00e5ff;
+    --cyan-dim: #00b8cc;
+    --cyan-ghost: rgba(0,229,255,0.06);
+    --amber: #ffb347;
+    --text: #c9d8e8;
+    --text-dim: #6a8099;
+    --text-bright: #eaf4ff;
+    --red: #ff4757;
+    --green: #00ff87;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Scanline effect */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 2;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8,12,16,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav .wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 52px;
+  }
+
+  .nav-brand {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--cyan);
+    letter-spacing: 0.08em;
+    text-decoration: none;
+  }
+
+  .nav-brand span { color: var(--text-dim); }
+
+  nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  nav a {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--cyan); }
+
+  /* ── HERO ── */
+  #hero {
+    padding: 6rem 0 5rem;
+    position: relative;
+  }
+
+  .hero-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--cyan);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--cyan);
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(3rem, 8vw, 6.5rem);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--text-bright);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 .last { color: var(--cyan); }
+
+  .hero-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.85em;
+    background: var(--cyan);
+    margin-left: 4px;
+    vertical-align: middle;
+    animation: blink 1.1s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .hero-subtitle {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-subtitle .sep { margin: 0 0.6em; color: var(--border); }
+
+  .hero-summary {
+    max-width: 640px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 2.5rem;
+    font-weight: 300;
+  }
+
+  .hero-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .link-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.4em 0.9em;
+    border-radius: 2px;
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+
+  .link-pill:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    background: var(--cyan-ghost);
+  }
+
+  .link-pill .icon { font-size: 0.85em; }
+
+  /* ── SECTION HEADERS ── */
+  section { padding: 4rem 0; border-top: 1px solid var(--border); }
+
+  .section-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    letter-spacing: -0.02em;
+    margin-bottom: 2.5rem;
+  }
+
+  /* ── SKILLS ── */
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .skill-tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    padding: 0.5em 0.9em;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    letter-spacing: 0.03em;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--cyan-dim);
+    color: var(--text-bright);
+    background: var(--cyan-ghost);
+  }
+
+  /* ── EXPERIENCE TIMELINE ── */
+  .timeline { position: relative; padding-left: 2px; }
+
+  .tl-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0 2.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .tl-item:last-child { border-bottom: none; }
+
+  .tl-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    padding-top: 0.35rem;
+    letter-spacing: 0.05em;
+    line-height: 1.4;
+  }
+
+  .tl-year .year-accent {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--cyan);
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+
+  .tl-content {}
+
+  .tl-role {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    letter-spacing: 0.01em;
+  }
+
+  .tl-company {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--cyan-dim);
+    margin: 0.2rem 0 0.6rem;
+  }
+
+  .tl-desc {
+    font-size: 0.92rem;
+    color: var(--text);
+    line-height: 1.65;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* ── PROJECTS GRID ── */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .project-card {
+    background: var(--bg2);
+    padding: 1.8rem;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--cyan);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+
+  .project-card:hover { background: var(--bg3); }
+  .project-card:hover::before { transform: scaleX(1); }
+
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--text-bright);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    display: block;
+    margin-bottom: 0.5rem;
+    transition: color 0.2s;
+  }
+
+  .project-card:hover .project-name { color: var(--cyan); }
+
+  .project-desc {
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    line-height: 1.55;
+    margin-bottom: 1rem;
+    font-style: italic;
+    font-weight: 300;
+    font-family: 'Newsreader', serif;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    padding: 0.2em 0.6em;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .tag-ts { background: rgba(49,120,198,0.2); color: #4ec9b0; border: 1px solid rgba(49,120,198,0.3); }
+  .tag-ai { background: rgba(0,229,255,0.08); color: var(--cyan); border: 1px solid rgba(0,229,255,0.2); }
+  .tag-security { background: rgba(255,71,87,0.08); color: #ff6b7a; border: 1px solid rgba(255,71,87,0.2); }
+  .tag-protocol { background: rgba(255,179,71,0.08); color: var(--amber); border: 1px solid rgba(255,179,71,0.2); }
+  .tag-infra { background: rgba(0,255,135,0.06); color: #00cc6a; border: 1px solid rgba(0,255,135,0.15); }
+
+  /* ── EDUCATION ── */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .edu-item {
+    border: 1px solid var(--border);
+    padding: 1.4rem 1.6rem;
+    transition: border-color 0.2s;
+  }
+
+  .edu-item:hover { border-color: var(--cyan-dim); }
+
+  .edu-school {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-bright);
+    margin-bottom: 0.3rem;
+  }
+
+  .edu-degree {
+    font-family: 'Newsreader', serif;
+    font-size: 0.88rem;
+    color: var(--text-dim);
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .edu-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--cyan-dim);
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* ── SIDEBAR INFO ── */
+  .info-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .info-block h3 {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--cyan);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-block ul { list-style: none; }
+
+  .info-block li {
+    font-size: 0.88rem;
+    color: var(--text);
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .info-block li:last-child { border-bottom: none; }
+
+  .lang-level {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+  }
+
+  .award-item {
+    font-size: 0.88rem;
+    color: var(--text);
+    padding: 0.4rem 0;
+    border-bottom: 1px solid rgba(30,45,61,0.5);
+    font-style: italic;
+    font-family: 'Newsreader', serif;
+    font-weight: 300;
+  }
+
+  .award-item:last-child { border-bottom: none; }
+
+  .award-item::before {
+    content: '▸ ';
+    color: var(--amber);
+    font-style: normal;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: var(--text-bright);
+  }
+
+  .footer-note {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .tl-item { grid-template-columns: 1fr; gap: 0.3rem; }
+    .tl-year { display: flex; gap: 1rem; align-items: baseline; }
+    .tl-year .year-accent { display: inline; margin-bottom: 0; }
+    .info-columns { grid-template-columns: 1fr; gap: 2rem; }
+    nav ul { display: none; }
+    h1 { font-size: 2.8rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#hero" class="nav-brand">TL<span>.dev</span></a>
+    <ul>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#about">About</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" style="border-top: none;">
+  <div class="wrap">
+    <div class="hero-tag">Available for the right opportunity</div>
+    <h1>Teemu<br><span class="last">Lantta</span><span class="hero-cursor"></span></h1>
+    <p class="hero-subtitle">
+      Senior Developer
+      <span class="sep">·</span>
+      AI Enthusiast
+      <span class="sep">·</span>
+      Inventor
+      <span class="sep">·</span>
+      Helsinki
+    </p>
+    <p class="hero-summary">
+      I build things that shouldn't exist yet. Currently focused on AI agent safety and trust infrastructure — specifically how to make AI deployments auditable and hallucination-resistant in the real world.
+    </p>
+    <div class="hero-links">
+      <a href="mailto:teemun.geemeili@gmail.com" class="link-pill"><span class="icon">✉</span> teemun.geemeili@gmail.com</a>
+      <a href="tel:+358503545879" class="link-pill"><span class="icon">◎</span> +358 503 545 879</a>
+      <a href="https://www.linkedin.com/in/teemulantta-90440366" target="_blank" class="link-pill"><span class="icon">⬡</span> LinkedIn</a>
+      <a href="https://github.com/teelant" target="_blank" class="link-pill"><span class="icon">◈</span> github/teelant</a>
+      <a href="https://github.com/fxg55647" target="_blank" class="link-pill"><span class="icon">◈</span> github/fxg55647</a>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="wrap">
+    <div class="section-label">Work history</div>
+    <h2>Experience</h2>
+    <div class="timeline">
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2015</span>
+          → Present
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Senior Developer &amp; AI Builder</div>
+          <div class="tl-company">Freelancer · Self-employed</div>
+          <p class="tl-desc">Building real-world AI-driven projects with a focus on agent safety, deployment infrastructure, and trust systems. Recent work includes an automated email personalization system for sales teams — pulling from multiple data sources to make outreach appear deeply researched, at scale. Over a decade of independent client work across industries.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2021</span>
+          – 2024
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Software Developer</div>
+          <div class="tl-company">Mehiläinen Terveyspalvelut Oy · Helsinki</div>
+          <p class="tl-desc">Developed in-house systems for billing, vouchers, and staff shift management at one of Finland's largest healthcare providers.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2020</span>
+          – 2021
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Lead Software Developer</div>
+          <div class="tl-company">Remotea – Improving Healthcare</div>
+          <p class="tl-desc">Built remote healthcare software platform; owned all non-analysis components end-to-end. Responsible for architecture decisions and execution.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2017</span>
+          – 2018
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Frontend Developer</div>
+          <div class="tl-company">Brave Digital Finland · Remote (Kuopio / Krakow)</div>
+          <p class="tl-desc">UI/UX design, PHP, Laravel, Ionic, Angular 2, LESS, Vue.js. Also authored a full technical architecture plan for an athlete matchmaking service.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2014</span>
+          – 2015
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Undergraduate Studies</div>
+          <div class="tl-company">University of Helsinki</div>
+          <p class="tl-desc">Completed degree studies that had been paused during earlier employment periods.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2012</span>
+          – 2014
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">System Specialist</div>
+          <div class="tl-company">Uranus Oy</div>
+          <p class="tl-desc">PHP development on Laura HR, a market-leading HR software platform. Built a complex LinkedIn integration and a responsive mobile-friendly frontend. Customer-facing negotiations on feature requests.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2008</span>
+          – 2012
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">System Specialist</div>
+          <div class="tl-company">Digia Plc</div>
+          <p class="tl-desc">Java web applications, HTML/CSS/jQuery. Became the team's go-to expert for cross-browser compatibility and JS issues. Participated in courses covering software vulnerabilities and project scheduling.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2007</span>
+          – 2008
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Game Programmer</div>
+          <div class="tl-company">Air Dice Games</div>
+          <p class="tl-desc">Learned serious programming under skilled mentorship: OOP, AS3, Eclipse, recursive functions, design patterns, unit tests. Built online games and animated websites. Also Java backend.</p>
+        </div>
+      </div>
+
+      <div class="tl-item reveal">
+        <div class="tl-year">
+          <span class="year-accent">2005</span>
+          – 2007
+        </div>
+        <div class="tl-content">
+          <div class="tl-role">Site Builder → Entrepreneur</div>
+          <div class="tl-company">Tietotalo Infocenter Oy / Zenith Design</div>
+          <p class="tl-desc">Cross-browser debugging, Photoshop layout slicing, CMS, PHP, Flash. Then founded own small web business: websites, multimedia kiosk content, Flash animations.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="wrap">
+    <div class="section-label">Open source</div>
+    <h2>Projects</h2>
+    <div class="projects-grid">
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/leima" target="_blank" class="project-name">Leima</a>
+        <p class="project-desc">Transparent Record of Evaluation, Attestation and Deployment (TREAD). Cryptographic audit trail for AI deployments — every code review, every deploy, immutably logged.</p>
+        <div class="project-tags">
+          <span class="tag tag-ai">AI Safety</span>
+          <span class="tag tag-infra">Audit Trail</span>
+          <span class="tag tag-infra">TREAD</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/NanCy" target="_blank" class="project-name">NanCy</a>
+        <p class="project-desc">SSIL — Stateless Security Interruption Layer. Makes OpenClaw/Claude safe enough for cautious enterprise use without compromising capability.</p>
+        <div class="project-tags">
+          <span class="tag tag-ts">TypeScript</span>
+          <span class="tag tag-security">Security</span>
+          <span class="tag tag-ai">AI Safety</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/PIDD" target="_blank" class="project-name">PIDD</a>
+        <p class="project-desc">Prompt Injection Detection &amp; Disarming. Real-time detection and neutralization of prompt injection attacks before they reach AI backends.</p>
+        <div class="project-tags">
+          <span class="tag tag-ts">TypeScript</span>
+          <span class="tag tag-security">Security</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/Gauntlet" target="_blank" class="project-name">Gauntlet</a>
+        <p class="project-desc">Proxy for detecting prompt injections before they reach AI backends. Defense layer for agentic workflows.</p>
+        <div class="project-tags">
+          <span class="tag tag-security">Security</span>
+          <span class="tag tag-infra">Proxy</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/epistemic-claim-architecture" target="_blank" class="project-name">Epistemic Claim Architecture</a>
+        <p class="project-desc">Architecture for agents, evidence, and pluralistic evaluation — a framework for how AI systems can reason transparently about uncertain or contested claims.</p>
+        <div class="project-tags">
+          <span class="tag tag-ai">AI Research</span>
+          <span class="tag tag-protocol">Architecture</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/Neutral-Witness-" target="_blank" class="project-name">Neutral Witness</a>
+        <p class="project-desc">Accountability infrastructure for claims in agent and human systems — who said what, when, and with what confidence.</p>
+        <div class="project-tags">
+          <span class="tag tag-ai">AI Safety</span>
+          <span class="tag tag-infra">Accountability</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/ubop" target="_blank" class="project-name">UBOP</a>
+        <p class="project-desc">Universal Booking Protocol — an open protocol for travel and booking interoperability across platforms and providers.</p>
+        <div class="project-tags">
+          <span class="tag tag-protocol">Protocol</span>
+          <span class="tag tag-protocol">Open Standard</span>
+        </div>
+      </div>
+
+      <div class="project-card reveal">
+        <a href="https://github.com/fxg55647/declarative-media-architecture" target="_blank" class="project-name">Declarative Media Architecture</a>
+        <p class="project-desc">A declarative approach to describing and rendering video, games, and simulations — separating intent from implementation.</p>
+        <div class="project-tags">
+          <span class="tag tag-protocol">Architecture</span>
+          <span class="tag tag-protocol">Media</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="wrap">
+    <div class="section-label">Academic</div>
+    <h2>Education</h2>
+    <div class="edu-grid">
+      <div class="edu-item reveal">
+        <div class="edu-school">Helsingin yliopisto</div>
+        <div class="edu-degree">Bachelor of Arts</div>
+        <div class="edu-year">2015</div>
+      </div>
+      <div class="edu-item reveal">
+        <div class="edu-school">Metropolia University of Applied Sciences</div>
+        <div class="edu-degree">Electrical &amp; Electronics Engineering</div>
+        <div class="edu-year">1999 – 2000</div>
+      </div>
+      <div class="edu-item reveal">
+        <div class="edu-school">Vehkalahden lukio</div>
+        <div class="edu-degree">Upper Secondary School</div>
+        <div class="edu-year">High school</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="wrap">
+    <div class="section-label">Profile</div>
+    <h2>Skills &amp; Info</h2>
+
+    <div class="info-columns" style="margin-bottom: 3rem;">
+      <div class="info-block reveal">
+        <h3>Languages</h3>
+        <ul>
+          <li>Finnish <span class="lang-level">Native</span></li>
+          <li>English <span class="lang-level">Full Professional</span></li>
+          <li>Swedish <span class="lang-level">Limited Working</span></li>
+          <li>German <span class="lang-level">Limited Working</span></li>
+        </ul>
+      </div>
+      <div class="info-block reveal">
+        <h3>Recognition</h3>
+        <div class="award-item">2nd prize — mobile screenplay writing competition</div>
+        <div class="award-item">Innovation Award — Idea Kymi 2023</div>
+      </div>
+      <div class="info-block reveal">
+        <h3>Contact</h3>
+        <ul>
+          <li style="flex-direction: column; align-items: flex-start; gap: 0.1rem;">
+            <a href="mailto:teemun.geemeili@gmail.com" style="color: var(--cyan); text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;">teemun.geemeili@gmail.com</a>
+          </li>
+          <li style="flex-direction: column; align-items: flex-start; gap: 0.1rem;">
+            <a href="tel:+358503545879" style="color: var(--text); text-decoration: none; font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;">+358 503 545 879</a>
+          </li>
+          <li>Helsinki Metropolitan Area</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-bottom: 1rem;">Technical skills</div>
+    <div class="skills-grid reveal">
+      <div class="skill-tag">TypeScript</div>
+      <div class="skill-tag">JavaScript</div>
+      <div class="skill-tag">PHP</div>
+      <div class="skill-tag">Java</div>
+      <div class="skill-tag">HTML / CSS</div>
+      <div class="skill-tag">Vue.js</div>
+      <div class="skill-tag">Angular</div>
+      <div class="skill-tag">Laravel</div>
+      <div class="skill-tag">Ionic</div>
+      <div class="skill-tag">jQuery</div>
+      <div class="skill-tag">AI-driven dev</div>
+      <div class="skill-tag">Agent safety</div>
+      <div class="skill-tag">Prompt injection</div>
+      <div class="skill-tag">UI/UX Design</div>
+      <div class="skill-tag">Cross-browser</div>
+      <div class="skill-tag">Software arch.</div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-name">Teemu Lantta</div>
+      <div class="footer-note">Helsinki · 2026 · github.com/teelant · github.com/fxg55647</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
