@@ -405,6 +405,35 @@
   .tag-protocol { background: rgba(255,179,71,0.08); color: var(--amber); border: 1px solid rgba(255,179,71,0.2); }
   .tag-infra { background: rgba(0,255,135,0.06); color: #00cc6a; border: 1px solid rgba(0,255,135,0.15); }
 
+  .project-links {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .proj-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-decoration: none;
+    border: 1px solid var(--border);
+    padding: 0.2em 0.65em;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .proj-link:hover {
+    border-color: var(--cyan-dim);
+    color: var(--cyan);
+    background: var(--cyan-ghost);
+  }
+
+  .proj-link.live {
+    color: var(--cyan);
+    border-color: rgba(0,229,255,0.25);
+  }
+
   /* ── EDUCATION ── */
   .edu-grid {
     display: grid;
@@ -718,69 +747,90 @@
     <div class="projects-grid">
 
       <div class="project-card reveal">
-        <a href="https://leima.io" target="_blank" class="project-name">Leima</a>
+        <span class="project-name">Leima</span>
         <p class="project-desc">Stamp any document with a permanent, independently verifiable record — contracts, due diligence, trade documents. Proof that a specific version existed at a specific moment, anchored on Arweave.</p>
         <div class="project-tags">
           <span class="tag tag-infra">Document Stamping</span>
           <span class="tag tag-infra">Arweave</span>
           <span class="tag tag-protocol">Due Diligence</span>
         </div>
+        <div class="project-links">
+          <a href="https://leima.io" target="_blank" class="proj-link live">↗ leima.io</a>
+          <a href="https://github.com/fxg55647/leima" target="_blank" class="proj-link">⌥ GitHub</a>
+        </div>
       </div>
 
       <div class="project-card reveal">
-        <a href="https://github.com/fxg55647/leima" target="_blank" class="project-name">TREAD</a>
+        <span class="project-name">TREAD</span>
         <p class="project-desc">Transparent Record of Evaluation, Attestation and Deployment. Verify that the code running on a server is the same code that was reviewed — works for both open and closed source. The audit trail on Arweave cannot be altered retroactively.</p>
         <div class="project-tags">
           <span class="tag tag-ai">AI Safety</span>
           <span class="tag tag-infra">Audit Trail</span>
           <span class="tag tag-security">Code Verification</span>
         </div>
+        <div class="project-links">
+          <a href="https://github.com/fxg55647/leima" target="_blank" class="proj-link">⌥ GitHub</a>
+        </div>
       </div>
 
       <div class="project-card reveal">
-        <a href="https://github.com/fxg55647/NanCy" target="_blank" class="project-name">NanCy</a>
+        <span class="project-name">NanCy</span>
         <p class="project-desc">SSIL — Stateless Security Interruption Layer. Makes OpenClaw/Claude safe enough for cautious enterprise use without compromising capability.</p>
         <div class="project-tags">
           <span class="tag tag-ts">TypeScript</span>
           <span class="tag tag-security">Security</span>
           <span class="tag tag-ai">AI Safety</span>
         </div>
+        <div class="project-links">
+          <a href="https://github.com/fxg55647/NanCy" target="_blank" class="proj-link">⌥ GitHub</a>
+        </div>
       </div>
 
       <div class="project-card reveal">
-        <a href="https://github.com/fxg55647/PIDD" target="_blank" class="project-name">PIDD</a>
+        <span class="project-name">PIDD</span>
         <p class="project-desc">Prompt Injection Detection &amp; Disarming. Real-time detection and neutralization of prompt injection attacks before they reach AI backends.</p>
         <div class="project-tags">
           <span class="tag tag-ts">TypeScript</span>
           <span class="tag tag-security">Security</span>
         </div>
+        <div class="project-links">
+          <a href="https://github.com/fxg55647/PIDD" target="_blank" class="proj-link">⌥ GitHub</a>
+        </div>
       </div>
 
       <div class="project-card reveal">
-        <a href="https://github.com/fxg55647/Gauntlet" target="_blank" class="project-name">Gauntlet</a>
+        <span class="project-name">Gauntlet</span>
         <p class="project-desc">Proxy for detecting prompt injections before they reach AI backends. Defense layer for agentic workflows.</p>
         <div class="project-tags">
           <span class="tag tag-security">Security</span>
           <span class="tag tag-infra">Proxy</span>
         </div>
+        <div class="project-links">
+          <a href="https://github.com/fxg55647/Gauntlet" target="_blank" class="proj-link">⌥ GitHub</a>
+        </div>
       </div>
 
-
       <div class="project-card reveal">
-        <a href="https://github.com/fxg55647/ubop" target="_blank" class="project-name">UBOP</a>
+        <span class="project-name">UBOP</span>
         <p class="project-desc">Universal Booking Protocol — an open protocol for travel and booking interoperability across platforms and providers.</p>
         <div class="project-tags">
           <span class="tag tag-protocol">Protocol</span>
           <span class="tag tag-protocol">Open Standard</span>
         </div>
+        <div class="project-links">
+          <a href="https://github.com/fxg55647/ubop" target="_blank" class="proj-link">⌥ GitHub</a>
+        </div>
       </div>
 
       <div class="project-card reveal">
-        <a href="https://github.com/fxg55647/declarative-media-architecture" target="_blank" class="project-name">Declarative Media Architecture</a>
+        <span class="project-name">Declarative Media Architecture</span>
         <p class="project-desc">A declarative approach to describing and rendering video, games, and simulations — separating intent from implementation.</p>
         <div class="project-tags">
           <span class="tag tag-protocol">Architecture</span>
           <span class="tag tag-protocol">Media</span>
+        </div>
+        <div class="project-links">
+          <a href="https://github.com/fxg55647/declarative-media-architecture" target="_blank" class="proj-link">⌥ GitHub</a>
         </div>
       </div>
 
